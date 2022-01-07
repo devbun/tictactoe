@@ -15,6 +15,10 @@
 players = []
 
 function playerCreate(name, symbol, controller) {
+    let score = 0
+
+    const getScore = () => score;
+
     const move = tile => {
         if (gameBoard[tile] == '') {
           gameBoard[tile] = symbol;
@@ -22,7 +26,8 @@ function playerCreate(name, symbol, controller) {
           activePlayer = activePlayer == 0 ? 1 : 0;
         }
     }
-    return {name, symbol, controller, move} //does controller need public access?
+
+    return {name, symbol, controller, score, move} //does controller need public access?
 }
 
 function boardNew() {
@@ -51,7 +56,7 @@ function scoreUpdate() {
     score.innerHTML = ''
     for (let i = 0; i < players.length; i++) {
         const scorecard = document.createElement('div');
-        scorecard.textContent = players[i].name + ': 0' //add player score
+        scorecard.textContent = players[i].name + ': ' + players[i].getScore()
         score.appendChild(scorecard)
     }
 }
