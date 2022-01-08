@@ -1,20 +1,69 @@
 :root {
-    --colour-main: #e6eeee;
-    --colour-second: #0081a7;
-    --colour-buttons: #00afb9;
-    --colour-accent: #f07167;
+    --colour-main: #f6fcf5;
+    --colour-second: #a8dadc;
+    --colour-text: #1d3557;
+    --colour-playerX: #e63946;
+    --colour-playerO: #457b9d;
   }
 
 * {
     margin: 0;
     box-sizing: border-box;
-    font-family: sans-serif;
-    font-size: 40px;
+    font-family: 'Balsamiq Sans', cursive;
+    color: var(--colour-text);
   }
 
+  body {
+    font-size: 24px;
+    background-color: var(--colour-main);
+}
+
 header {
+    font-weight: bold;
+    color: var(--colour-playerO);
     text-align: center;
-    margin-top: 1em;
+    padding-top: .5em;
+    padding-bottom: .5em;
+    font-size: 1.5em;
+    background-color: var(--colour-second);
+    box-shadow: 0px 2px #888888;
+    margin-bottom: 1em;
+}
+
+.startup {
+    width: 450px;
+    height: 450px;
+    background-color: var(--colour-second);
+    padding: 1em;
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    justify-content: space-evenly;
+    border-radius: 10px;
+    box-shadow: 0px 2px #888888;
+}
+
+.form-row {
+    width: 200px;
+    display: flex;
+    flex-direction: row;
+    align-items: center; 
+    justify-content: space-between;
+}
+
+h1 {
+    margin-bottom: .5em;
+    font-size: 1.2em;
+}
+
+.player-name {
+    font-size: 1em;
+    width: 100px;
+    height: 1.25em;
+}
+
+.textbox {
+    height: 5em;
 }
 
 main {
@@ -32,16 +81,51 @@ main {
     flex-wrap: wrap;
     align-items: center;
     justify-content: space-around;
-    background-color: var(--colour-second);
+    background-color: var(--colour-main);
+    border-radius: 10px;
 }
 
 .tile {
+    padding-top: 18px;
     width: 140px;
     height: 140px;
-    background-color: var(--colour-main);
+    background-color: var(--colour-second);
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 150px;
     font-weight: bold;
+    border-radius: 10px;
+    box-shadow: 0px 2px #888888;
 }
+
+.score {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 0.75em;
+    width: 400px;
+    margin: .5em;
+}
+
+.btn {
+    text-align: center;
+    color: var(--colour-main);
+    background-color: var(--colour-playerX);
+    padding: .5em;
+    width: 8em;
+    margin-top: 1em;
+    transition: all .2s ease-in-out;
+    border-radius: 4px;
+    box-shadow: 0px 1px #888888;
+}
+
+.btn:hover, btn:focus {
+    color: white;
+    cursor: pointer;
+    background-color: var(--colour-text);
+  }
+
+  footer {
+    visibility: hidden;
+  }

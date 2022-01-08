@@ -2,24 +2,27 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <title>JS Tic Tac Toe</title>
+    <title>JS Tic-Tac-Toe</title>
     <link rel='stylesheet' href='tictac.css'/>
     <script src="tictac.js" defer></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Balsamiq+Sans&display=swap" rel="stylesheet">
   </head>
   <body>
     <header class='container head'>
-    <h1>Tic Tac Toe</h1>
-    <br>
+    Tic-Tac-Toe
     </header>
-
-    <div class="vs"></div>
 
     <main>
       <div class='startup' id='startup'>
+        <h1>
+          Settings
+        </h1>
 
         <div class='player'>
           <div class='form-row'>
-            <label for='name1'>Player X</label>
+            <label for='name1'>Player X:</label>
             <input class='player-name' id='name1' name='name1' type='text' value="Conan"/>
           </div>
 
@@ -27,19 +30,18 @@
             <label for='read'>CPU</label>
             <input type="checkbox" id="CPU1" value="CPU1">
           </div>
-
         </div>
 
-        <div class='player-name'>
+        <div class='player'>
           <div class='form-row'>
-            <label for='name2'>Player O</label>
+            <label for='name2'>Player O:</label>
             <input class='player-name' id='name2' name='name2' type='text' value="Emma"/>
           </div>
-        </div>
 
-        <div class='form-row'>
-          <label for='read'>CPU</label>
-          <input type="checkbox" id="CPU2" value="CPU2">
+          <div class='form-row'>
+            <label for='read'>CPU</label>
+            <input type="checkbox" id="CPU2" value="CPU2">
+          </div>
         </div>
 
         <span class='btn' id='btn-start' onclick="startGame()">Start Game</span>
@@ -52,6 +54,8 @@
       <div class="score" id="score">
       </div>
 
+      <div class='textbox'id='textbox'>
+      </div>
 
     </main>
 

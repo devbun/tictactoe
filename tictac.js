@@ -2,6 +2,10 @@
 
 const allEqual = arr => arr.every( v => v === arr[0] )
 
+function getRandomInt(max) {
+    return Math.floor(Math.random() * max);
+  }
+
 function playerCreate(name, symbol, controller) {
     let score = 0;
 
@@ -16,16 +20,23 @@ function playerCreate(name, symbol, controller) {
           gameBoard[tile] = symbol;
           boardUpdate()
           checkerWinner()
-          activePlayer = activePlayer == 0 ? 1 : 0;
+          swapPlayer()
         }
     }
 
     return {name, symbol, controller, score, move, getScore, addScore} //does controller need public access?
 }
 
+function swapPlayer() {
+    activePlayer = activePlayer == 0 ? 1 : 0;
+    document.getElementById('textbox').textContent = `It is ${players[activePlayer].name}'s turn.`
+    document.getElementById('textbox').style.color = activePlayer == 0 ? 'var(--colour-playerX)' : 'var(--colour-playerO)'
+    //if active player is ai have them do move
+}
+
 function boardNew() {
   gameBoard = ['', '', '', '', '', '', '', '', '']
-  var activePlayer = Math.random() //ONLY works for 2 player
+  activePlayer = getRandomInt(2)//ONLY works for 2 player
   boardUpdate()
   scoreUpdate()
 }
@@ -45,6 +56,7 @@ function boardUpdate() {
         tile.setAttribute('onclick', 'makeMove(this.id)');
         tile.setAttribute('onmouseover', 'previewMove(this.id)');
         tile.setAttribute('onmouseout', 'unpreviewMove(this.id)');
+        tile.style.color = gameBoard[i] == 'X' ? 'var(--colour-playerX)' : 'var(--colour-playerO)';
         board.appendChild(tile);
     }
 }
@@ -63,7 +75,6 @@ function unpreviewMove(id) {
     console.log("unpreview for " + id)
     if (gameBoard[id] == '') {
         tile.textContent = ''
-        tile.style.color = "black"
     }
 }
 
@@ -72,7 +83,10 @@ function scoreUpdate() {
     score.innerHTML = ''
     for (let i = 0; i < players.length; i++) {
         const scorecard = document.createElement('div');
-        scorecard.textContent = `${players[i].name} (${players[i].symbol}): ${players[i].getScore()} wins`;
+        scorecard.textContent = `${players[i].name}: ${players[i].getScore()} win`;
+        if (players[i].getScore() !== 1) {
+            scorecard.textContent += 's'
+        }
         score.appendChild(scorecard)
     }
 }
@@ -98,17 +112,26 @@ function checkerWinner() {
        (allEqual( [gameBoard[0], gameBoard[4], gameBoard[8], players[activePlayer].symbol ])) || 
        (allEqual( [gameBoard[2], gameBoard[4], gameBoard[6], players[activePlayer].symbol ])) 
        ) {
-        console.log('feeeeesh')
-        alert(players[activePlayer].name + ' wins!')
+        
+        document.getElementById('textbox').textContent = players[activePlayer].name + ' wins!'
+        document.getElementById('textbox').style.color = activePlayer == 0 ? 'var(--colour-playerX)' : 'var(--colour-playerO)'
         players[activePlayer].addScore()
+
         boardNew()
+
+        // const nextRound = document.createElement('div');
+        // nextRound.textContent = `Next Round`
+        // nextRound.classList.add('btn'); 
+        // nextRound.setAttribute('onclick', 'boardNew()');
+        // document.getElementById('textbox').appendChild(nextRound);
+
        } else if (!gameBoard.includes('')) { 
-        alert('Draw!')
+        document.getElementById('textbox').textContent = `It's a draw!`
         boardNew()
        }
 }
 
-//TODO: Turn controller, AI, next game button
+//TODO: Turn controller, AI, next game button, proper reset
 
 function startGame() {
     let p1Name = document.getElementById('name1').value;
@@ -131,6 +154,7 @@ function newGame(player_1_name, player_1_controller, player_2_name, player_2_con
     players.push(PlayerO);
 
     boardNew()
+    swapPlayer()
 }
 
 var activePlayer = 0
