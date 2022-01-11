@@ -2,8 +2,10 @@
     --colour-main: #f6fcf5;
     --colour-second: #a8dadc;
     --colour-text: #1d3557;
-    --colour-playerX: #e63946;
-    --colour-playerO: #457b9d;
+    --colour-accent: #e63946;
+
+    --colour-playerX: #e639477c;
+    --colour-playerO: #457b9d7c;
   }
 
 * {
@@ -20,7 +22,7 @@
 
 header {
     font-weight: bold;
-    color: var(--colour-main);
+    color: var(--colour-accent);
     text-align: center;
     padding-top: .5em;
     padding-bottom: .5em;
@@ -67,6 +69,10 @@ h1 {
 }
 
 .textbox {
+    display: flex;
+    align-items: normal;
+    justify-content: center;
+    flex-direction: column;
     height: 5em;
 }
 
@@ -120,7 +126,7 @@ main {
 .btn {
     text-align: center;
     color: var(--colour-main);
-    background-color: var(--colour-playerX);
+    background-color: var(--colour-accent);
     padding: .5em;
     width: 8em;
     margin-top: 1em;

@@ -2,10 +2,6 @@
 
 const allEqual = arr => arr.every( v => v === arr[0] )
 
-function getRandomInt(max) {
-    return Math.floor(Math.random() * max);
-  }
-
 function playerCreate(name, symbol, controller) {
     let score = 0;
 
@@ -13,14 +9,14 @@ function playerCreate(name, symbol, controller) {
 
     const addScore = () => {
         score += 1
+        scoreUpdate()
     }
 
     const move = tile => {
-        if (gameBoard[tile] == '') {
+        if (gameBoard[tile] == '' && canMove == true) {
           gameBoard[tile] = symbol;
           boardUpdate()
           checkerWinner()
-          swapPlayer()
         }
     }
 
@@ -32,11 +28,23 @@ function swapPlayer() {
     document.getElementById('textbox').textContent = `It is ${players[activePlayer].name}'s turn.`
     document.getElementById('textbox').style.color = activePlayer == 0 ? 'var(--colour-playerX)' : 'var(--colour-playerO)'
     //if active player is ai have them do move
+
+    if (players[activePlayer].controller == 'CPU') {
+        while (true) {
+            let trymove = Math.floor(Math.random() * gameBoard.length)
+            console.log('random tile' + trymove)
+            if (gameBoard[trymove] == '') {
+                makeMove(trymove)
+                break
+            }
+        }
+    }
 }
 
 function boardNew() {
   gameBoard = ['', '', '', '', '', '', '', '', '']
-  activePlayer = getRandomInt(2)//ONLY works for 2 player
+  canMove = true
+  swapPlayer()
   boardUpdate()
   scoreUpdate()
 }
@@ -63,7 +71,6 @@ function boardUpdate() {
 
 function previewMove(id) {
     tile = document.getElementById(id);
-    console.log("preview for " + id)
     if (gameBoard[id] == '') {
         tile.textContent = players[activePlayer].symbol
         tile.style.color = "gray"
@@ -72,7 +79,6 @@ function previewMove(id) {
 
 function unpreviewMove(id) {
     tile = document.getElementById(id);
-    console.log("unpreview for " + id)
     if (gameBoard[id] == '') {
         tile.textContent = ''
     }
@@ -92,7 +98,7 @@ function scoreUpdate() {
 }
 
 function makeMove(tile) {
-    console.log(players[activePlayer].name + tile)
+    //console.log(players[activePlayer].name + tile)
     players[activePlayer].move(tile)
 }
 
@@ -113,22 +119,37 @@ function checkerWinner() {
        (allEqual( [gameBoard[2], gameBoard[4], gameBoard[6], players[activePlayer].symbol ])) 
        ) {
         
-        document.getElementById('textbox').textContent = players[activePlayer].name + ' wins!'
-        document.getElementById('textbox').style.color = activePlayer == 0 ? 'var(--colour-playerX)' : 'var(--colour-playerO)'
+        textbox = document.getElementById('textbox')
+
+        textbox.textContent = players[activePlayer].name + ' wins!'
+        textbox.style.color = activePlayer == 0 ? 'var(--colour-playerX)' : 'var(--colour-playerO)'
+
         players[activePlayer].addScore()
 
-        boardNew()
+        canMove = false
 
-        // const nextRound = document.createElement('div');
-        // nextRound.textContent = `Next Round`
-        // nextRound.classList.add('btn'); 
-        // nextRound.setAttribute('onclick', 'boardNew()');
-        // document.getElementById('textbox').appendChild(nextRound);
+        console.log("win button test")
+
+        nextRoundButton()
 
        } else if (!gameBoard.includes('')) { 
         document.getElementById('textbox').textContent = `It's a draw!`
-        boardNew()
+        canMove = false
+
+        nextRoundButton()
+       } else {
+
+       swapPlayer()
+
        }
+}
+
+function nextRoundButton() {
+    const nextRound = document.createElement('div');
+    nextRound.textContent = `Next Round`
+    nextRound.classList.add('btn'); 
+    nextRound.setAttribute('onclick', 'boardNew()');
+    textbox.appendChild(nextRound);
 }
 
 //TODO: Turn controller, AI, next game button, proper reset
@@ -154,7 +175,6 @@ function newGame(player_1_name, player_1_controller, player_2_name, player_2_con
     players.push(PlayerO);
 
     boardNew()
-    swapPlayer()
 }
 
 var activePlayer = 0
